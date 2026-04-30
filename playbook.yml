@@ -1,6 +1,6 @@
 ---
 - name: Configure workstation
-  hosts: local
+  hosts: localhost
   become: true
 
   roles:
