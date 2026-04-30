@@ -2,31 +2,41 @@
 - name: Install workstation packages
   apt:
     name:
-      - firefox-esr
       - foot
+      - syncthing
+      - libfuse2
     state: present
 
-- name: Create apt keyrings directory
+- name: Remove old Microsoft keyrings and VS Code repo
   file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: '0755'
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/keyrings/microsoft.asc
+    - /usr/share/keyrings/microsoft.gpg
+    - /etc/apt/sources.list.d/vscode.list
+    - /etc/apt/sources.list.d/vscode.sources
 
-- name: Add Microsoft GPG key
-  get_url:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    dest: /etc/apt/keyrings/microsoft.asc
-    mode: '0644'
-
-- name: Add VS Code apt repo
-  apt_repository:
-    repo: "deb [arch=arm64 signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
-    state: present
-    filename: vscode
-
-- name: Install VS Code
+- name: Remove VS Code
   apt:
     name: code
+    state: absent
+
+- name: Add VSCodium GPG key
+  shell: |
+    curl -sS https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor > /usr/share/keyrings/vscodium-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/vscodium-archive-keyring.gpg
+
+- name: Add VSCodium apt repo
+  apt_repository:
+    repo: "deb [ arch=arm64 signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main"
+    state: present
+    filename: vscodium
+
+- name: Install VSCodium
+  apt:
+    name: codium
     state: present
     update_cache: true
 
@@ -49,3 +59,30 @@
   args:
     creates: /opt/reaper/reaper
   when: reaper_download_url is defined
+
+- name: Enable Syncthing user service
+  systemd:
+    name: syncthing
+    enabled: true
+    state: started
+    scope: user
+  become: false
+
+- name: Download Obsidian AppImage
+  get_url:
+    url: "{{ obsidian_download_url }}"
+    dest: "/home/{{ local_user }}/.local/bin/Obsidian.AppImage"
+    mode: '0755'
+  when: obsidian_download_url is defined
+
+- name: Create Obsidian desktop entry
+  copy:
+    dest: "/home/{{ local_user }}/.local/share/applications/obsidian.desktop"
+    content: |
+      [Desktop Entry]
+      Name=Obsidian
+      Exec=/home/{{ local_user }}/.local/bin/Obsidian.AppImage
+      Icon=obsidian
+      Type=Application
+      Categories=Office;
+  when: obsidian_download_url is defined

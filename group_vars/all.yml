@@ -1,4 +1,6 @@
 ---
+local_user: brandon
+
 packages:
   - git
   - zsh
@@ -6,3 +8,6 @@ packages:
 
 # Set this to the ARM64 Linux tar.xz URL from reaper.fm before running
 # reaper_download_url: "https://..."
+
+# Set this to the ARM64 AppImage URL from github.com/obsidianmd/obsidian-releases before running
+# obsidian_download_url: "https://..."

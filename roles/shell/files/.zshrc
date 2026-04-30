@@ -1,3 +1,6 @@
+# Debian doesn't merge /usr/sbin into PATH like Arch does — needed for reboot, shutdown, etc.
+export PATH="$PATH:/usr/sbin"
+
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000

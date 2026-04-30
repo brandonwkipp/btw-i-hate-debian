@@ -1,12 +1,12 @@
 ---
-- name: Set zsh as default shell for {{ ansible_user_id }}
+- name: Set zsh as default shell for {{ local_user }}
   user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ local_user }}"
     shell: /usr/bin/zsh
 
 - name: Deploy .zshrc
   copy:
     src: .zshrc
-    dest: "/home/{{ ansible_user_id }}/.zshrc"
-    owner: "{{ ansible_user_id }}"
+    dest: "/home/{{ local_user }}/.zshrc"
+    owner: "{{ local_user }}"
     mode: '0644'

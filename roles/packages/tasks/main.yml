@@ -1,4 +1,9 @@
 ---
+- name: Remove apt-listbugs
+  apt:
+    name: apt-listbugs
+    state: absent
+
 - name: Install packages
   apt:
     name: "{{ packages }}"

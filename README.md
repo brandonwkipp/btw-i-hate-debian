@@ -37,6 +37,13 @@ Reaper is not in apt. Grab the ARM64 Linux tar.xz from reaper.fm, then
 uncomment and set `reaper_download_url` in `group_vars/all.yml`. Until then
 the Reaper tasks are safely skipped.
 
+### 4. Obsidian
+
+Obsidian is not in apt. Grab the ARM64 AppImage from
+github.com/obsidianmd/obsidian-releases, then uncomment and set
+`obsidian_download_url` in `group_vars/all.yml`. Until then the Obsidian
+tasks are safely skipped.
+
 ## Running
 
 Full playbook:
@@ -63,7 +70,7 @@ Available tags match role names: `packages`, `audio`, `workstation`,
 |---|---|
 | `packages` | Base apt packages (git, zsh, cifs-utils) |
 | `audio` | PipeWire + JACK compat layer + ecasound |
-| `workstation` | foot, Firefox, VS Code (via Microsoft apt repo), Reaper |
+| `workstation` | foot, VS Code (via Microsoft apt repo), Reaper, Syncthing, Obsidian |
 | `security` | wireshark (with non-root capture), nmap |
 | `samba` | Credentials + fstab automount for `//helium/brandon` |
 | `shell` | Sets zsh as default shell, deploys `.zshrc` |
