@@ -1,0 +1,8 @@
+---
+packages:
+  - git
+  - zsh
+  - cifs-utils
+
+# Set this to the ARM64 Linux tar.xz URL from reaper.fm before running
+# reaper_download_url: "https://..."

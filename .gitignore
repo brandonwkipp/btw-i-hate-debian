@@ -1,0 +1,11 @@
+# Ansible
+*.retry
+.vault_pass
+vault_pass.txt
+*.secret
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*~

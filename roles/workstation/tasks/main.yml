@@ -1,0 +1,51 @@
+---
+- name: Install workstation packages
+  apt:
+    name:
+      - firefox-esr
+      - foot
+    state: present
+
+- name: Create apt keyrings directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Add Microsoft GPG key
+  get_url:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    dest: /etc/apt/keyrings/microsoft.asc
+    mode: '0644'
+
+- name: Add VS Code apt repo
+  apt_repository:
+    repo: "deb [arch=arm64 signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
+    state: present
+    filename: vscode
+
+- name: Install VS Code
+  apt:
+    name: code
+    state: present
+    update_cache: true
+
+- name: Download Reaper
+  get_url:
+    url: "{{ reaper_download_url }}"
+    dest: /tmp/reaper_linux_arm64.tar.xz
+    mode: '0644'
+  when: reaper_download_url is defined
+
+- name: Extract Reaper
+  unarchive:
+    src: /tmp/reaper_linux_arm64.tar.xz
+    dest: /tmp/
+    remote_src: true
+  when: reaper_download_url is defined
+
+- name: Install Reaper
+  shell: /tmp/reaper_linux_arm64/install-reaper.sh --install /opt/reaper --integrate-desktop
+  args:
+    creates: /opt/reaper/reaper
+  when: reaper_download_url is defined

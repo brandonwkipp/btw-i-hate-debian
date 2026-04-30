@@ -1,0 +1,20 @@
+---
+- name: Allow non-root wireshark packet capture
+  debconf:
+    name: wireshark-common
+    question: wireshark-common/install-setuid
+    value: 'true'
+    vtype: boolean
+
+- name: Install security packages
+  apt:
+    name:
+      - wireshark
+      - nmap
+    state: present
+
+- name: Add user to wireshark group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: wireshark
+    append: true

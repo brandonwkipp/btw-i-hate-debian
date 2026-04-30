@@ -1,0 +1,24 @@
+---
+- name: Install audio packages
+  apt:
+    name:
+      - pipewire
+      - pipewire-audio
+      - pipewire-jack
+      - pipewire-pulse
+      - wireplumber
+      - libspa-0.2-jack
+      - ecasound
+    state: present
+
+- name: Enable PipeWire user services
+  become: false
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+    scope: user
+  loop:
+    - pipewire
+    - pipewire-pulse
+    - wireplumber

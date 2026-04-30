@@ -1,0 +1,62 @@
+---
+- name: Create samba credentials directory
+  file:
+    path: /etc/samba/credentials
+    owner: root
+    group: root
+    state: directory
+    mode: '0700'
+
+- name: Set samba username for helium share
+  lineinfile:
+    path: /etc/samba/credentials/helium
+    create: true
+    owner: root
+    group: root
+    mode: '0600'
+    regexp: '^username='
+    line: "username={{ samba_username }}"
+  no_log: true
+
+- name: Set samba password for helium share
+  lineinfile:
+    path: /etc/samba/credentials/helium
+    create: true
+    owner: root
+    group: root
+    mode: '0600'
+    regexp: '^password='
+    line: "password={{ samba_password }}"
+  no_log: true
+
+- name: Create helium mount directory
+  file:
+    path: /mnt/helium/brandon
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    recurse: true
+
+- name: Add helium to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: '\shelium$'
+    line: "192.168.0.2 helium"
+
+- name: Configure fstab for helium/brandon with systemd automount
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^//helium/brandon\s'
+    line: "//helium/brandon /mnt/helium/brandon cifs credentials=/etc/samba/credentials/helium,workgroup=workgroup,iocharset=utf8,uid={{ ansible_user_id }},gid={{ ansible_user_id }},_netdev,nofail,x-systemd.automount,x-systemd.idle-timeout=600,x-systemd.mount-timeout=10s 0 0"
+  register: helium_fstab
+
+- name: Reload systemd to pick up generated automount unit
+  systemd:
+    daemon_reload: true
+  when: helium_fstab.changed
+
+- name: Enable helium automount
+  systemd:
+    name: mnt-helium-brandon.automount
+    enabled: true
+    state: started

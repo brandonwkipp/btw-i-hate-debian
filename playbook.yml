@@ -1,0 +1,12 @@
+---
+- name: Configure workstation
+  hosts: local
+  become: true
+
+  roles:
+    - packages
+    - audio
+    - workstation
+    - security
+    - samba
+    - shell

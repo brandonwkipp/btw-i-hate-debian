@@ -1,0 +1,8 @@
+---
+# Encrypt these with:
+#   ansible-vault encrypt_string 'yourvalue' --name 'samba_username'
+#   ansible-vault encrypt_string 'yourvalue' --name 'samba_password'
+samba_username: !vault |
+  REPLACE_WITH_VAULT_ENCRYPTED_VALUE
+samba_password: !vault |
+  REPLACE_WITH_VAULT_ENCRYPTED_VALUE
