@@ -12,3 +12,10 @@
     dest: "/home/{{ local_user }}/.config/waybar/config"
     owner: "{{ local_user }}"
     mode: '0644'
+
+- name: Deploy sway config
+  copy:
+    src: .config/sway/config
+    dest: "/home/{{ local_user }}/.config/sway/config"
+    owner: "{{ local_user }}"
+    mode: '0644'

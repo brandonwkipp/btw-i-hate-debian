@@ -1,5 +1,6 @@
 ---
 - import_tasks: dotfiles.yml
+  tags: dotfiles
 - import_tasks: packages.yml
 - import_tasks: vscodium.yml
 - import_tasks: audio.yml

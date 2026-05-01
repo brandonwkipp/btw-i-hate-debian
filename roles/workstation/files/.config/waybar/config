@@ -4,7 +4,7 @@
     "height": 32, // Waybar height (to be removed for auto height)
     "modules-left": ["custom/run", "sway/workspaces"],
     "modules-center": [],
-    "modules-right": ["tray", "battery", "clock"],
+    "modules-right": ["custom/syncthing", "battery", "clock", "tray"],
     "custom/run": {
         "format": "M",
         "exec": "printf 'M\nApplications\n'",
@@ -12,6 +12,11 @@
         "on-click": "wofi --show drun -p 'Type to search and press enter.' -n -i -I -W 66% -H 66% -s $HOME/.config/wofi.css"
     },
     "sway/window": {
+    },
+    "custom/syncthing": {
+        "format": "Sync",
+        "on-click": "firefox http://127.0.0.1:8384",
+        "tooltip": false
     },
     "tray": {
         "icon-theme": "Papirus",
