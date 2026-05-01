@@ -1,0 +1,14 @@
+---
+- name: Deploy foot config
+  copy:
+    src: .config/foot/foot.ini
+    dest: "/home/{{ local_user }}/.config/foot/foot.ini"
+    owner: "{{ local_user }}"
+    mode: '0644'
+
+- name: Deploy Waybar config
+  copy:
+    src: .config/waybar/config
+    dest: "/home/{{ local_user }}/.config/waybar/config"
+    owner: "{{ local_user }}"
+    mode: '0644'

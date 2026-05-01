@@ -1,0 +1,8 @@
+---
+- name: Enable Syncthing user service
+  systemd:
+    name: syncthing
+    enabled: true
+    state: started
+    scope: user
+  become: false

@@ -1,0 +1,8 @@
+---
+- name: Install workstation packages
+  apt:
+    name:
+      - foot
+      - syncthing
+      - libfuse2t64
+    state: present

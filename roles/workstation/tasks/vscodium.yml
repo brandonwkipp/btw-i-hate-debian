@@ -1,0 +1,18 @@
+---
+- name: Add VSCodium GPG key
+  shell: |
+    curl -sS https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor > /usr/share/keyrings/vscodium-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/vscodium-archive-keyring.gpg
+
+- name: Add VSCodium apt repo
+  apt_repository:
+    repo: "deb [ arch=arm64 signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main"
+    state: present
+    filename: vscodium
+
+- name: Install VSCodium
+  apt:
+    name: codium
+    state: present
+    update_cache: true
