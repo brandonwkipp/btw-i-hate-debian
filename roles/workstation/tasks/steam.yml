@@ -1,0 +1,14 @@
+---
+- name: Enable i386 architecture for Steam
+  command: dpkg --add-architecture i386
+  args:
+    creates: /var/lib/dpkg/arch
+
+- name: Update apt cache after enabling i386
+  apt:
+    update_cache: yes
+
+- name: Install Steam
+  apt:
+    name: steam
+    state: present

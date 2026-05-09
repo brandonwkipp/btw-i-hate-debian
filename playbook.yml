@@ -2,6 +2,7 @@
 - name: Configure workstation
   hosts: localhost
   become: true
+  connection: local
 
   roles:
     - packages

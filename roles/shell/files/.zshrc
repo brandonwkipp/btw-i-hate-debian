@@ -18,6 +18,7 @@ alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias diff="diff --color"
 
+alias airmon-ng="sudo airmon-ng"
 alias ansible-playbook="ansible-playbook --ask-become-pass"
 alias dmesg="sudo dmesg"
 alias history="history 0"
@@ -28,3 +29,5 @@ alias view="vim -R"
 
 # Local overrides and secrets — not managed by ansible
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+
+export MESA_LOADER_DRIVER_OVERRIDE=zink

@@ -66,7 +66,7 @@ output DSI-1 scale 2
 # Read `man 5 sway-input` for more information about this section.
 #
 
-#default_border pixel 10
+default_border none
 hide_edge_borders both
 
 ### Key bindings
@@ -128,8 +128,12 @@ hide_edge_borders both
 
     bindsym $mod+F1 exec brightnessctl s 10%-
     bindsym $mod+F2 exec brightnessctl s +10%
+    bindsym $mod+Shift+F1 exec brightnessctl s 1%-
+    bindsym $mod+Shift+F2 exec brightnessctl s +1%
     bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
     bindsym XF86MonBrightnessUp exec brightnessctl s +10%
+    bindsym Shift+XF86MonBrightnessDown exec brightnessctl s 1%-
+    bindsym Shift+XF86MonBrightnessUp exec brightnessctl s +1%
     bindsym $mod+F3 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
     bindsym $mod+F4 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
     bindsym $mod+F5 exec pactl set-sink-mute @DEFAULT_SINK@ toggle

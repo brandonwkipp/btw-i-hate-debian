@@ -5,16 +5,67 @@
     question: wireshark-common/install-setuid
     value: 'true'
     vtype: boolean
+  tags: security
 
 - name: Install security packages
   apt:
     name:
       - wireshark
       - nmap
+      - aircrack-ng
     state: present
+  tags: security
 
 - name: Add user to wireshark group
   user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ ansible_facts['user_id'] }}"
     groups: wireshark
     append: true
+  tags: security
+
+- name: Add Kismet GPG key
+  shell: |
+    curl -sS https://www.kismetwireless.net/repos/kismet-release.gpg.key | gpg --dearmor > /usr/share/keyrings/kismet-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/kismet-archive-keyring.gpg
+  tags: security
+
+- name: Add Kismet apt repo
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/kismet-archive-keyring.gpg] https://www.kismetwireless.net/repos/apt/release/bookworm bookworm main"
+    state: present
+    filename: kismet
+  tags: security
+
+- name: Download libwebsockets17 (kismet dependency missing from bookworm)
+  get_url:
+    url: "https://ftp.debian.org/debian/pool/main/libw/libwebsockets/libwebsockets17_4.1.6-3_arm64.deb"
+    dest: /tmp/libwebsockets17.deb
+  tags: security
+
+- name: Install libwebsockets17
+  apt:
+    deb: /tmp/libwebsockets17.deb
+  tags: security
+
+- name: Install Kismet
+  apt:
+    name:
+      - kismet
+      - kismet-capture-linux-wifi
+    state: present
+    update_cache: true
+  tags: security
+
+- name: Create kismet group
+  group:
+    name: kismet
+    state: present
+  tags: security
+
+- name: Add user to kismet group
+  user:
+    name: "{{ ansible_facts['user_id'] }}"
+    groups: kismet
+    append: true
+  tags: security

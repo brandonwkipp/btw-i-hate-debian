@@ -1,0 +1,9 @@
+---
+- name: Rename wifi interface to wlan0
+  copy:
+    dest: /etc/udev/rules.d/70-wifi.rules
+    content: 'SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:0a:52:05:ea:e8", NAME="wlan0"'
+    owner: root
+    group: root
+    mode: '0644'
+  tags: udev
