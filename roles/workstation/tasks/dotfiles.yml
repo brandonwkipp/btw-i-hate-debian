@@ -19,3 +19,10 @@
     dest: "/home/{{ local_user }}/.config/sway/config"
     owner: "{{ local_user }}"
     mode: '0644'
+
+- name: Deploy OpenMW launcher desktop override (Zink)
+  copy:
+    src: .local/share/applications/org.openmw.launcher.desktop
+    dest: "/home/{{ local_user }}/.local/share/applications/org.openmw.launcher.desktop"
+    owner: "{{ local_user }}"
+    mode: '0644'

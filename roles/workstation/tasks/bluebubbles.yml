@@ -1,0 +1,52 @@
+---
+- name: Install BlueBubbles dependencies
+  apt:
+    name:
+      - libwebkit2gtk-4.1-0
+      - libjavascriptcoregtk-4.1-0
+      - libmpv2
+    state: present
+
+- name: Create BlueBubbles install directory
+  file:
+    path: "/home/{{ local_user }}/.local/share/bluebubbles"
+    state: directory
+    owner: "{{ local_user }}"
+    mode: '0755'
+
+- name: Download BlueBubbles tar
+  get_url:
+    url: "{{ bluebubbles_download_url }}"
+    dest: "/tmp/bluebubbles-linux-aarch64.tar"
+    mode: '0644'
+  when: bluebubbles_download_url is defined
+
+- name: Extract BlueBubbles
+  unarchive:
+    src: "/tmp/bluebubbles-linux-aarch64.tar"
+    dest: "/home/{{ local_user }}/.local/share/bluebubbles"
+    remote_src: yes
+    owner: "{{ local_user }}"
+  when: bluebubbles_download_url is defined
+
+- name: Create BlueBubbles launcher script
+  copy:
+    dest: "/home/{{ local_user }}/.local/bin/bluebubbles"
+    mode: '0755'
+    content: |
+      #!/bin/sh
+      exec env LD_LIBRARY_PATH="/home/{{ local_user }}/.local/share/bluebubbles/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" \
+        /home/{{ local_user }}/.local/share/bluebubbles/bluebubbles "$@"
+  when: bluebubbles_download_url is defined
+
+- name: Create BlueBubbles desktop entry
+  copy:
+    dest: "/home/{{ local_user }}/.local/share/applications/bluebubbles.desktop"
+    content: |
+      [Desktop Entry]
+      Name=BlueBubbles
+      Exec=/home/{{ local_user }}/.local/bin/bluebubbles
+      Icon=bluebubbles
+      Type=Application
+      Categories=Network;InstantMessaging;
+  when: bluebubbles_download_url is defined

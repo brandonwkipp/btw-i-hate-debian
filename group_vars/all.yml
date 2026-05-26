@@ -11,3 +11,6 @@ reaper_download_url: "https://www.reaper.fm/files/7.x/reaper770_linux_aarch64.ta
 
 # Set this to the ARM64 AppImage URL from github.com/obsidianmd/obsidian-releases before running
 obsidian_download_url: "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/Obsidian-1.12.7-arm64.AppImage"
+
+# Set this to the ARM64 tar URL from github.com/BlueBubblesApp/bluebubbles-app/releases
+bluebubbles_download_url: "https://github.com/BlueBubblesApp/bluebubbles-app/releases/download/v1.15.0%2B70/bluebubbles-linux-aarch64.tar"
