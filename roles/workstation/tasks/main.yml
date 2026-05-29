@@ -2,6 +2,7 @@
 - import_tasks: dotfiles.yml
   tags: dotfiles
 - import_tasks: packages.yml
+  tags: packages
 - import_tasks: vscodium.yml
 - import_tasks: audio.yml
 - import_tasks: obsidian.yml

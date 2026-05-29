@@ -7,4 +7,5 @@
       - libfuse2t64
       - openmw
       - mesa-vulkan-drivers # for openmw
+      - thunderbird
     state: present
